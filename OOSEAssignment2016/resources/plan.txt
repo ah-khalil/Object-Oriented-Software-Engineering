@@ -1,0 +1,10 @@
+Year,Buy/Sell,Property
+2000,S,Cannington Factory
+2001,B,Outer Haven
+2002,S,Nintendo
+2003,B,PlayStation
+2004,B,Samsung
+2004,S,Toshiba
+2005,S,NaturalSpringWater
+2005,B,Colt
+2006,B,Diamond Dogs

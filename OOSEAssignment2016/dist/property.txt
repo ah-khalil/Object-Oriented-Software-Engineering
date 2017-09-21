@@ -1,0 +1,14 @@
+Name,Type,Owner,Worth,Revenue,Wages
+MetroidPrime,C,,500,,,
+Cannington Factory,B,MetroidPrime,100,10,15
+Coca Cola,C,,1000,,,
+NaturalSpringWater,B,Coca Cola,1000,100,150
+Toshiba,C,MetroidPrime,100000,,,
+Samsung,C,Coca Cola,900,,,
+Colt,C,,10000,,,
+Canon,C,Toshiba,60,,,
+PlayStation,C,Samsung,900,,,
+Nintendo,C,MetroidPrime,9000,,,
+Bantex,B,Nintendo,600,500,9000
+Outer Haven,B,Coca Cola,90000,10000,5000
+Diamond Dogs,B,Toshiba,1000,10,1

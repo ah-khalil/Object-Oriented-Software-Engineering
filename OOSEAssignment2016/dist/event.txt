@@ -1,0 +1,15 @@
+Year,Event,Property
+2000,R-,Cannington Factory
+2000,R+,Outer Haven
+2001,R-,Cannington Factory
+2001,W-,
+2001,V+,Samsung
+2001,W+,
+2002,R+,NaturalSpringWater
+2002,W+,
+2003,R+,Diamond Dogs
+2003,W+,
+2003,V+,Toshiba
+2004,V+,Nintendo
+2005,R+,Cannington Factory
+2006,R-,NaturalSpringWater
