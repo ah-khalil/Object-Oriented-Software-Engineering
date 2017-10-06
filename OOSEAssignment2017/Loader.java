@@ -34,10 +34,10 @@ public abstract class Loader{
             else if (line_split.length == ab_column_info.length)
                 check_header(ab_column_info, line_split, "Ability");
             else
-                throw new Exception("Invalid File: Make sure the file headers represent the type of file they're in");
+                throw new LoadingFileException("Invalid File: Make sure the file headers represent the type of file they're in");
 
-        } catch(Exception e){
-            System.out.println("Exception: " + e);
+        } catch(LoadingFileException lfe){
+            System.out.println("Error: " + lfe);
         } catch(IOException ioe){
             throw new FileInputReadingException("Error reading file");
         } finally{
@@ -58,4 +58,5 @@ public abstract class Loader{
     }
 
     protected abstract void parse_line(String[] line_split);
+    protected abstract void line_checker(String[] line_split) throws LoadingFileException;
 }
