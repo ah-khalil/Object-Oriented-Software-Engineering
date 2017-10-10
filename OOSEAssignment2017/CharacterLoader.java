@@ -2,33 +2,48 @@ import java.util.*;
 
 public class CharacterLoader extends Loader{
     protected void parse_line(String[] line_split){
-        int             charac_hp;
-        int             charac_type;
-        String          charac_name;
-        String[]        charac_abs;
-        Character       charac;
-        AbilityStorage  store = new AbilityStorage();
+        int                 charac_hp;
+        String              charac_type;
+        String              charac_name;
+        String[]            charac_abs;
+        Character           charac;
+        Storage             store = new Storage();
+        CharacterBuilder    charac_build;
+
         try{
-            line_checker(line_split);
+            line_checker(line_split, store);
         } catch(LoadingFileException lfe){
             System.out.println("Error: " + lfe);
+        } finally{
+            System.exit(1);
         }
 
-        charac_type =   line_split[0].equals('N') ? 1 : 2;
+        charac_type =   line_split[0];
         charac_name =   line_split[1];
-        charac_hp   =   line_split[2];
-        charac_abs  =   new String[(line_split.length - 1) - 3];
+        charac_hp   =   Integer.parseInt(line_split[2]);
 
-        for(int i = 0; i < abs.length; i++){
-            charac_abs[i] = line_split[i + 3];
+        charac_build = new CharacterBuilder();
+        charac_build.add_type(charac_type);
+        charac_build.add_name(charac_name);
+        charac_build.add_hp(charac_hp);
+
+        if(line_split.length > 3){
+            charac_abs = new String[(line_split.length) - 3];
+
+            for(int i = 0; i < charac_abs.length; i++){
+                charac_abs[i] = line_split[i + 3];
+            }
+
+            charac_build.add_abilities(charac_abs);
         }
 
-        charac = new Character(charac_type, charac_name, charac_hp, charac_abs);
+        charac = charac_build.build_character();
+        store.attach_charac(charac.get_name(), charac);
     }
 
-    protected void line_checker(String[] line_split) throws LoadingFileException{
-        if(line_split.length != 4)
-            throw new LoadingFileException("Make sure all and just the information listed in the header is provided");
+    protected void line_checker(String[] line_split, Storage store) throws LoadingFileException{
+        if(line_split.length < 3)
+            throw new LoadingFileException("Make sure the type, name and HP are provided");
 
         if(!line_split[0].equals("N") && !line_split[0].equals("P"))
             throw new LoadingFileException("Make sure the character is either a Non-Playable Type (N) or a Playable Type (P)");
@@ -36,14 +51,17 @@ public class CharacterLoader extends Loader{
         if(line_split[1].equals("") || line_split[1].equals(" "))
             throw new LoadingFileException("Make sure the character name is not empty or simply whitespace");
 
-        for(int i = 3; i < line_split.length; i++){
-            if(line_split[i].equals("") || line_split[i].equals(" "))
-                throw new LoadingFileException("Make sure the ability names are not blank or simply whitespaces");
+        if(store.check_charac_exist(line_split[1]))
+            throw new LoadingFileException("Make sure the following character is not a duplicate: " + line_split[1]);
 
-            if(!store.check_ab_exist(line_split[i]))
-                throw new LoadingFileException("The following ability does not exist: " + line_split[i] + "\n
-                                                Make sure it exists within the Ability file, and that it is\n
-                                                formatted properly");
+        if(line_split.length > 3){
+            for(int i = 3; i < line_split.length; i++){
+                if(line_split[i].equals("") || line_split[i].equals(" "))
+                    throw new LoadingFileException("Make sure the ability names are not blank or simply whitespaces");
+
+                if(!store.check_ab_exist(line_split[i]))
+                    throw new LoadingFileException("The following ability does not exist: " + line_split[i] + "\nMake sure it exists within the Ability file, and that it is\nformatted properly");
+            }
         }
 
         try{

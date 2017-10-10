@@ -1,6 +1,6 @@
 Type,Name,Target,Base,NumDice,Faces
-D,Manoeuvre,S,2,2,5
-D,Ice Blast,M,9,1,
+D,Manoeuvre,S,2,2,3
+D,Ice Blast,M,9,1,4
 D,Fire Bolt,S,6,3,4
 D,Arcane Shot,S,8,4,6
 H,Focus,M,4,5,3
@@ -9,4 +9,4 @@ D,Lightening,M,5,2,10
 D,Rage,S,1,3,4
 D,Sharp Shot,S,8,2,4
 H,Med Pack,S,7,1,3
-H,Support,M,6,1,10
+H,Support,M,6,1,4
