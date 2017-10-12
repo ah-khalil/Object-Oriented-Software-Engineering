@@ -1,6 +1,8 @@
 import java.util.*;
 
+//The loader that validates and places abilities into the storage
 public class AbilityLoader extends Loader{
+    //Implementation of template method
     protected void parse_line(String[] line_split){
         int     ab_type;
         int     ab_tgt_type;
@@ -11,32 +13,28 @@ public class AbilityLoader extends Loader{
         Ability ab;
         Storage store = new Storage();
 
-        // System.out.println(line_split[0]);
-        // System.out.println(line_split[1]);
-        // System.out.println(line_split[2]);
-        // System.out.println(line_split[3]);
-        // System.out.println(line_split[4]);
-        // System.out.println(line_split[5]);
-
+        //Validate the lines and catch LoadingFileException thrown from invalid lines, then exit
         try{
             line_checker(line_split, store);
         } catch(LoadingFileException lfe){
             System.out.println("Error: " + lfe);
         } finally{
-            //System.exit(1);
+            System.exit(1);
         }
 
-        ab_type     =   line_split[0].equals("D") ? 3 : 4;
+        ab_type     =   line_split[0].equals("D") ? 2 : 3;
         ab_name     =   line_split[1];
-        ab_tgt_type =   line_split[2].equals("S") ? 1 : 2;
+        ab_tgt_type =   line_split[2].equals("S") ? 0 : 1;
         ab_base     =   Integer.parseInt(line_split[3]);
         ab_num_dice =   Integer.parseInt(line_split[4]);
         ab_num_face =   Integer.parseInt(line_split[5]);
 
+        //create Ability and insert into storage
         ab = new Ability(ab_name, ab_base, ab_num_dice, ab_num_face, ab_type, ab_tgt_type);
         store.add_ab_to_storage(ab_name, ab);
     }
 
+    //Validates the line given
     protected void line_checker(String[] line_split, Storage store) throws LoadingFileException{
         if(line_split.length != 6)
             throw new LoadingFileException("Make sure all and just the information listed in the header is provided");
@@ -50,6 +48,7 @@ public class AbilityLoader extends Loader{
         if(!line_split[2].equals("M") && !line_split[2].equals("S"))
             throw new LoadingFileException("Make sure the ability is either a Single-Target Type (S) or a Multi-Target Type (M)");
 
+        //Checks to see if the items entered are actually numbers
         try{
             Integer.parseInt(line_split[3]);
             Integer.parseInt(line_split[4]);

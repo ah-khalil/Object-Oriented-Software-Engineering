@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
+//Parent loader class that represents the commonalities between all loader types
 public abstract class Loader{
+    //the expected headers in each input file
     private final String[] char_column_info = {
         "Type",
         "Name",
@@ -21,6 +23,7 @@ public abstract class Loader{
         "Faces"
     };
 
+    //Reads and seperates the lines by commas, sends it to parse_line for validating
     public void read_file(String file) throws LoadingFileException, FileInputReadingException{
         String[] line_split = null;
         String line = null;
@@ -33,8 +36,6 @@ public abstract class Loader{
 
             line_split = br.readLine().split(",");
 
-            //System.out.println("Length of Line split: " + line_split.length);
-
             if(line_split.length == char_column_info.length)
                 check_header(char_column_info, line_split, "Character");
             else if (line_split.length == ab_column_info.length)
@@ -44,10 +45,6 @@ public abstract class Loader{
 
             while((line = br.readLine()) != null){
                 line_split = line.split(",");
-
-                // for(String el : line_split){
-                //     System.out.println("Line Element: " + el);
-                // }
 
                 parse_line(line_split);
             }
@@ -70,14 +67,15 @@ public abstract class Loader{
         }
     }
 
+    //checks to see if the header of input file matches what is to be expected
     private void check_header(String[] final_arr, String[] to_check_arr, String file_type) throws LoadingFileException{
         for(int i = 0; i < final_arr.length; i++){
-            //System.out.println("String Split: " + to_check_arr[i]);
             if(!to_check_arr[i].equals(final_arr[i]))
                 throw new LoadingFileException(file_type + " File - Invalid Header: Found " + to_check_arr[i] + " where " + final_arr[i] + " should be");
         }
     }
 
+    //Template methods to be implemented by child classes
     protected abstract void parse_line(String[] line_split);
     protected abstract void line_checker(String[] line_split, Storage store) throws LoadingFileException;
 }

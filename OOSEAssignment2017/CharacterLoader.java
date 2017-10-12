@@ -1,6 +1,8 @@
 import java.util.*;
 
+//The loader that validates and places characters into the storage
 public class CharacterLoader extends Loader{
+    //Implementation of template method
     protected void parse_line(String[] line_split){
         int                 charac_hp;
         String              charac_type;
@@ -10,6 +12,7 @@ public class CharacterLoader extends Loader{
         Storage             store = new Storage();
         CharacterBuilder    charac_build;
 
+        //Validate the lines and catch LoadingFileException thrown from invalid lines, then exit
         try{
             line_checker(line_split, store);
         } catch(LoadingFileException lfe){
@@ -22,7 +25,10 @@ public class CharacterLoader extends Loader{
         charac_name =   line_split[1];
         charac_hp   =   Integer.parseInt(line_split[2]);
 
+        //because a character may or may not have abilities, and Java doesn't have default parameters, Builder method was used to simulate it
         charac_build = new CharacterBuilder();
+
+        //separates the construction of the character to the Builder class
         charac_build.add_type(charac_type);
         charac_build.add_name(charac_name);
         charac_build.add_hp(charac_hp);
@@ -37,10 +43,12 @@ public class CharacterLoader extends Loader{
             charac_build.add_abilities(charac_abs);
         }
 
+        //create Character and insert into storage
         charac = charac_build.build_character();
         store.attach_charac(charac.get_name(), charac);
     }
 
+    //Validates the line given
     protected void line_checker(String[] line_split, Storage store) throws LoadingFileException{
         if(line_split.length < 3)
             throw new LoadingFileException("Make sure the type, name and HP are provided");
@@ -54,6 +62,7 @@ public class CharacterLoader extends Loader{
         if(store.check_charac_exist(line_split[1]))
             throw new LoadingFileException("Make sure the following character is not a duplicate: " + line_split[1]);
 
+        //Validates ability fields
         if(line_split.length > 3){
             for(int i = 3; i < line_split.length; i++){
                 if(line_split[i].equals("") || line_split[i].equals(" "))
